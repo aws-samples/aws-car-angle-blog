@@ -34,13 +34,16 @@ Lambda: contains the  individual Lamba Functions to trigger the Sagemaker endpoi
 
 # Getting Started
 
-## Dependencies
+## Prerequisites
 
-The following pre requisities are essential to setup the application 
+For this walkthrough, you should have the following prerequisits:
 
-1. An aws account 
-2. EC2 Instance 
-3. Appropriate IAM Roles 
+1. [AWS account](https://aws.amazon.com/)
+2. An [AWS user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) with  permissions to deploy and provision the infrastructure, e.g. [PowerUserAccess](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_job-functions.html) (note: permissions would need to be restricted further for a
+production-ready application, and will depend on how the application is integrated with others)
+3. [Docker](https://www.docker.com/) installed and running in your development environment (this could, for example, be a local machine, Amazon SageMaker
+notebook instance or a Cloud9 environment)
+4. [AWS CDK](https://aws.amazon.com/cdk/) installed. It can be installed using [npm](https://www.npmjs.com/), see also the [AWS Documentation](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html).
 
 
 ## Execution
@@ -85,7 +88,7 @@ $ pip install -r requirements.txt
 ```
 
 Step 4: At this point you can now synthesize the CloudFormation template for this code. 
-**Before you do so, edit your app.py and provide the appropriate AWS account and region.**
+**Before you do so, edit your app.py and provide the appropriate and unique name for the bucket.**
 
 ```
 $ cdk synth
@@ -97,7 +100,7 @@ Step 5: Also make sure that your account is bootstraped:
 $ cdk bootstrap
 ```
 
-Step 6:  you can now deploy the CloudFormation template for this code.
+Step 6:  You can now deploy the CloudFormation template for this code.
 
 ```
 $ cdk deploy
@@ -105,7 +108,8 @@ $ cdk deploy
 
 You can explore the source code, contained in the app directory.
 Further unit tests are included and can be run through:
-**Before you do so, edit your car_positioning/tests/unit/car_angle_stack_test.py and provide the appropriate AWS account and region.**
+**Before you do so, edit your car_positioning/tests/unit/car_angle_stack_test.py and provide the appropriate and unique bucket name.**
+Ensure that the stack is deployed from an environment with Docker installed and running at the time of execution.
 
 ```
 $ pytest
@@ -114,6 +118,30 @@ $ pytest
 To add additional dependencies, for example other CDK libraries, append them to
 the requirements.txt file and rerun the `pip install -r requirements.txt`
 command.
+
+
+Step 7: Connect the model end points to AWS Amplify and use it:
+1. Clone the application repository that this CDK stack created, named `car-angle-detection-website-repo`. Make sure you are looking for it in the region you used for deployment.
+2. Copy the the API Gateway endpoints for each of the deployed Lambdas into the
+index.html file in the above repository. There are placeholders where the end point
+needs to be placed. Example:
+```
+<td align="center" colspan="2">
+<select id="endpoint">
+<option value="https://ey87aaj8ch.execute-api.eu-central-
+1.amazonaws.com/prod/">
+Amazon Rekognition</option>
+<option value="https://nhq6a88xjg.execute-api.eu-central-
+1.amazonaws.com/prod/">
+Amazon SageMaker Detectron</option>
+</select>
+<input class="btn" type="file" id="ImageBrowse" />
+<input class="btn btn-primary" type="submit" value="Upload">
+</td>
+```
+3. Save the HTML file and push the code change to the remote master/main branch. This will update the HTML file in the deployment.
+4. The application is now ready to use. Go to the AWS Amplify endpoint and use the application.
+
 
 ## Useful commands
 
@@ -145,7 +173,7 @@ This project is licensed under the MIT-0 License.
 Security
 ---------------
 
-See https://github.com/aws-samples/car-angle-detection-with-rekognition-and-sagemaker/blob/main/CONTRIBUTING.md#security-issue-notifications for more information.
+See CONTRIBUTING.md for more information.
 
 
 Licensing

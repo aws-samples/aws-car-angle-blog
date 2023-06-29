@@ -12,7 +12,10 @@ A MRCNN model is trained on the Car Parts Segmenation dataset provided in the re
 
 ## Execution
 
-You simply run the deploy.sh bash script after passing the name of the S3 bucket that will be used. The script executes the following: 
+1. Run `chmod u+x deploy.sh`
+2. Run `./deploy.sh <ENTER_BUCKET_NAME>`
+
+The script executes the following: 
 * It builds and pushes the two docker images needed for training and inference: Dockerfile.train and Dockerfile.serve
 * It clones the [dataset](https://github.com/dsmlr/Car-Parts-Segmentation.git) and replace the annotation files for training and test by new files where each wheel has its own mask and its own bounding box.
 * It uploads the training and validatio data to the given S3 bucket under the following Prefix: car_position
