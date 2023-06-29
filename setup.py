@@ -7,7 +7,7 @@ with open("README.md") as fp:
 
 setuptools.setup(
     name="car_angle_detection_library",
-    version="0.0.1",
+    version="1.0.0",
 
     description="This library deploys various car angle detection compontents in a serverless fashion for you.",
     long_description=long_description,
