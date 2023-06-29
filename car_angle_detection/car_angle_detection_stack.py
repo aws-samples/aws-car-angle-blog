@@ -19,8 +19,11 @@ from aws_cdk import (
 
 class CarAngleDetectionStack(Stack):
 
-    def __init__(self, scope: Construct, id: str, account: str, bucket_name: str, aws_region: str, **kwargs) -> None:
+    def __init__(self, scope: Construct, id: str, bucket_name: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
+
+        account = self.account
+        aws_region = self.region
 
         key_policy_document=_iam.PolicyDocument(
                 statements=[_iam.PolicyStatement(
